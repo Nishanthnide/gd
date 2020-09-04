@@ -1,0 +1,1 @@
+<footer class="footer text-center"> 2019 &copy; GEAR DOCTOR Team: Nishanth, Vardhini, Padmapriya V </footer>
