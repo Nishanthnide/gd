@@ -1,5 +1,5 @@
 <?php
-include '../login/accesscontroldoc.php';
+include '../login/accesscontrolcust.php';
 require('connect.php');
 if(isset($_SESSION['cusername']))
 {

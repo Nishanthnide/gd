@@ -1,6 +1,14 @@
 <?php
 session_start();
 require('connect.php');
+if(isset($_SESSION['cusername']))
+{
+	$ausername=$_SESSION['cusername'];
+}
+elseif(isset($_SESSION['ausername']))
+{
+	$ausername=$_SESSION['ausername'];
+}
 
 if (isset($_POST['otp']))
 	{
@@ -29,7 +37,7 @@ if (isset($_POST['otp']))
         if($count==1)
 		{
 			$_SESSION['aotp'] = $row["otp"];
-			echo'<script> window.location="../customer/index.php";</script>';
+			echo'<script> window.location="../customer1/quick_cust_index.php";</script>';
 			
 		}
         else

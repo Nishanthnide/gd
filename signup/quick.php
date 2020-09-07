@@ -1,31 +1,44 @@
 <?php
-session_start();
 require('connect.php');
-
 if(isset($_POST['submit1'])){
     $username=$_POST['username'];
     $email=$_POST['email'];
-    $number=$_POST['phone'];
-    //echo rand(100000,999999);
+    $phone=$_POST['phone'];
     $random = rand(100000,999999);
-    //$text=$_POST['text'];
     $queryotp="INSERT INTO `otp`(otp) VALUES ('$random')";
     $resultotp = mysqli_query($connection, $queryotp); 
-$url="https://www.way2sms.com/api/v1/sendCampaign";
-$message = urlencode($random);// urlencode your message
-$curl = curl_init();
-curl_setopt($curl, CURLOPT_POST, 1);// set post data to true
-curl_setopt($curl, CURLOPT_POSTFIELDS, "apikey=XBD2FH7TN4F5M6D4O3BOS0DHKAOITIT1&secret=OBK7406PD31CVPQW&usetype=stage&phone=$number&senderid=nishanthbhat95@gmail.com&message= Hello $username Thank you for choosing Gear Doctor. Your OTP is $message");// post data
+    $message = "Hello $username Thank you for choosing Gear Doctor. Your OTP is $random";
+    
+    $apiKey = urlencode('l9njgSOr2bE-gMiyBTu9ANYxh3AGf9e5PoCoidUcxW');
+	$numbers = array($phone);
+	$sender = urlencode('TXTLCL');
+	$message = rawurlencode($message);
+	$numbers = implode(',', $numbers);
+ 	$data = array('apikey' => $apiKey, 'numbers' => $numbers, "sender" => $sender, "message" => $message);
+ 	$ch = curl_init('https://api.textlocal.in/send/');
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$response = curl_exec($ch);
+	curl_close($ch);
+	echo $response;
+    echo'<script> window.location="verify.php";</script>';
+    
+    
+//$url="https://www.way2sms.com/api/v1/sendCampaign";
+//$message = urlencode($random);// urlencode your message
+//$curl = curl_init();
+//curl_setopt($curl, CURLOPT_POST, 1);// set post data to true
+//curl_setopt($curl, CURLOPT_POSTFIELDS, "apikey=XBD2FH7TN4F5M6D4O3BOS0DHKAOITIT1&secret=OBK7406PD31CVPQW&usetype=stage&phone=$number&senderid=nishanthbhat95@gmail.com&message= Hello $username Thank you for choosing Gear Doctor. Your OTP is $message");// post data
 // query parameter values must be given without squarebrackets.
  // Optional Authentication:
-curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-curl_setopt($curl, CURLOPT_URL, $url);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-$result = curl_exec($curl);
-curl_close($curl);
-echo $result;
-echo'<script> window.location="verify.php";</script>';
-
+///curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+//curl_setopt($curl, CURLOPT_URL, $url);
+//curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+//$result = curl_exec($curl);
+//curl_close($curl);
+//echo $result;
+//echo'<script> window.location="verify.php";</script>';
 }
 ?>
 <html lang="en">

@@ -216,6 +216,7 @@ if(isset($_POST['changepw']))
 <div class="s-cont d-inline-block">
 <h5 class="f-w-700 m-b-0" style = "text-transform:capitalize;"><?php echo $ausername; ?></h5>
     <h5 class="f-w-700 m-b-0"><?php echo $row["email"]; ?></h5>
+    <h5 class="f-w-700 m-b-0" style = "text-transform:capitalize;"><?php echo $row["gender"]; ?></h5>
 </div>
 </div>
     <div class="card-header">
@@ -259,14 +260,11 @@ if(isset($_POST['changepw']))
                                             <br>
                                             <p class="text-muted"><?php echo $row["category"]; ?></p>
                                         </div>
-                                        <div class="col-md-3 col-xs-6 b-r"> <strong>Address</strong>
+                                        <div class="col-md-6 col-xs-6"> <strong>Address</strong>
                                             <br>
                                             <p class="text-muted"><?php echo $row["address"]; ?></p>
                                         </div>
-                                        <div class="col-md-3 col-xs-6"> <strong>Gender</strong>
-                                            <br>
-                                            <p class="text-muted"><?php echo $row["gender"]; ?></p>
-                                        </div>
+                                       
 									</div>
                                     
                                 </div>

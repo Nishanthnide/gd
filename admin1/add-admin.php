@@ -9,7 +9,7 @@ if (isset($_POST['username']) && isset($_POST['password']))
 		$username= mysqli_real_escape_string($connection,$_POST['username']);
 		$email=mysqli_real_escape_string($connection,$_POST['email']);
 		$password= md5($_POST['password']);
-		$repassword= md5($_POST['repassword']);
+		$repassword= md5($_POST['retypepassword']);
 		if($password == $repassword) 
 		{
 			
@@ -52,7 +52,10 @@ if (isset($_POST['username']) && isset($_POST['password']))
 <!-- Mirrored from colorlib.com/polygon/admindek/default/form-validation.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Dec 2019 16:09:14 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
-<title>Admindek | Admin Template</title>
+<title>Gear Doctor</title>
+<link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
+    
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
 
 
 <!--[if lt IE 10]>
@@ -83,7 +86,31 @@ if (isset($_POST['username']) && isset($_POST['password']))
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 
 <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/stylef.css">
 <link rel="stylesheet" type="text/css" href="css/pages.css">
+    
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#usernameLoading').hide();
+		$('#username').keyup(function(){
+		  $('#usernameLoading').show();
+	      $.post("check-adminusername.php", {
+	        username: $('#username').val()
+	      }, function(response){
+	        $('#usernameResult').fadeOut();
+	        setTimeout("finishAjax('usernameResult', '"+escape(response)+"')", 500);
+	      });
+	    	return false;
+		});
+	});
+
+	function finishAjax(id, response) {
+	  $('#usernameLoading').hide();
+	  $('#'+id).html(unescape(response));
+	  $('#'+id).fadeIn();
+	} //finishAjax
+</script>    
 </head>
 <body>
 
@@ -107,7 +134,7 @@ if (isset($_POST['username']) && isset($_POST['password']))
                                 <div class="page-header-title">
                                     <i class="feather icon-clipboard bg-c-blue"></i>
                                     <div class="d-inline">
-                                        <h5>ADD ADMIN</h5>
+                                        <h4>ADD ADMIN</h4>
                                     </div>
                                 </div>
                             </div>
@@ -148,37 +175,40 @@ if (isset($_POST['username']) && isset($_POST['password']))
                                                                 <strong><?php echo $smsg; ?></strong>
                                                             </div>
                                                         <?php }?>
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">Username</label>
-                                                            <div class="col-sm-10">
-                                                                <input type="text" class="form-control" name="username" id="name" placeholder="Text Input Validation">
-                                                                <span class="messages"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">Email</label>
-                                                            <div class="col-sm-10">
-                                                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter valid e-mail address">
-                                                                <span class="messages"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">Password</label>
-                                                            <div class="col-sm-5">
-                                                                <input type="password" class="form-control" id="password" name="password" placeholder="Password input">
-                                                                <span class="messages"></span>
-                                                            </div>
-                                                            <div class="col-sm-5">
-                                                                <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Repeat Password">
-                                                                <span class="messages"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-2"></label>
-                                                            <div class="col-sm-10">
-                                                                <button type="submit" class="btn btn-primary m-b-0">Submit</button>
-                                                            </div>
-                                                        </div>
+                                                        <div class="form-group">
+                                    <label for="inputName1" class="control-label">Username</label>
+                                    <input type="text" class="form-control" autocomplete="off" id="username" name="username" placeholder="Username is used to login" required>
+                                    <!-- username check start -->
+										<div>
+										<!--<span id="usernameLoading"><img src="../plugins/images/busy.gif" alt="Ajax Indicator" height="15" width="15" /></span>-->
+										<span id="usernameResult" style="color: #E40003"></span>
+										</div>
+				                     <!-- username check end -->
+                                </div>
+                                                        <div class="form-group">
+                                    <label for="inputName1" class="control-label">Email</label>
+                                    <input type="email" class="form-control" id="email" autocomplete="off" name="email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                                    <!-- username check start -->
+										<div>
+										<!--<span id="usernameLoading"><img src="../plugins/images/busy.gif" alt="Ajax Indicator" height="15" width="15" /></span>-->
+										</div>
+				                     <!-- username check end -->
+                                </div>
+<div class="form-group">
+                                    <label for="inputPassword" class="control-label">Password</label>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <input type="password" name="password" data-toggle="validator" data-minlength="6" class="form-control" id="inputPassword" placeholder="Password" required>
+                                            <span class="help-block">Minimum of 6 characters</span> </div>
+                                        <div class="form-group col-sm-6">
+                                            <input type="password" name="retypepassword" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Passwords don't match" placeholder="Confirm" required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                        <div class="form-group">
+                                    <button type="submit" name="docsubmit" class="btn btn-info">Submit</button>
+                                </div>
                                                     </form>
                                                 </div>
                                             </div>
@@ -189,8 +219,6 @@ if (isset($_POST['username']) && isset($_POST['password']))
                             </div>
                         </div>
                     </div>
-                    
-                <?php include 'footer.php'; ?>
                 </div>
                 <div id="styleSelector">
                 </div>
